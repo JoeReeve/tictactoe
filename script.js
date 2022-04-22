@@ -38,6 +38,12 @@ const Gameboard = (() => {
     }
 
     const checkWin = (char) => {
+        let player
+        if (char = "X") {
+            player = `${player1.name}`
+        } else {
+            player = `${player2.name}`
+        }
         //horizontals
         for (let i = 0; i < board.length; i++) {
             let charsInARow = 0
@@ -48,7 +54,12 @@ const Gameboard = (() => {
                     charsInARow += 1
                 }
                 if (charsInARow === 3) {
-                    alert("You win! (horizontal)")
+                    alert(`${player} wins! (horizontal)`)
+                    let playAgain = confirm("Play again?");
+                    if (playAgain) {
+                        window.location.reload()
+                    }
+                    return
                 }
             }
         }
@@ -62,7 +73,12 @@ const Gameboard = (() => {
                     charsInARow += 1
                 }
                 if (charsInARow === 3) {
-                    alert("You win! (vertical)")
+                    alert(`${player} wins! (vertical)`)
+                    let playAgain = confirm("Play again?");
+                    if (playAgain) {
+                        window.location.reload()
+                    }
+                    return
                 }
             }
         }
@@ -76,7 +92,12 @@ const Gameboard = (() => {
                 charsInARow += 1
             }
             if (charsInARow === 3) {
-                alert("You win! (diagonal down)")
+                alert(`${player} wins! (diagonal down)`)
+                let playAgain = confirm("Play again?");
+                    if (playAgain) {
+                        window.location.reload()
+                    }
+                return
             }
         }
         charsInARow = 0
@@ -88,8 +109,29 @@ const Gameboard = (() => {
                 charsInARow += 1
             }
             if (charsInARow === 3) {
-                alert("You win! (diagonal up)")
+                alert(`${player} wins! (diagonal up)`)
+                let playAgain = confirm("Play again?");
+                    if (playAgain) {
+                        window.location.reload()
+                    }
+                return
             }
+        }
+        //ties
+        let blanks = 0
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board.length; j++) {
+                if (board[i][j] === ' ') {
+                    blanks += 1
+                }
+            }
+        }
+        if (blanks === 0) {
+            alert("Tie game!")
+            let playAgain = confirm("Play again?");
+                    if (playAgain) {
+                        window.location.reload()
+                    }
         }
     }
 
@@ -114,12 +156,21 @@ const Engine = (() => {
             playerTurn = 'X'
         }
     }
+    const resetBtn = document.getElementById('resetBtn')
+    resetBtn.addEventListener("click", function() {
+        window.location.reload()
+    })
 
     const getPlayerTurn = () => {return playerTurn}
 
     return {
         changePlayer, getPlayerTurn
     }
+
 })();
 
 Gameboard.createBoard()
+let player1Name = prompt("Player 1 Name: ")
+let player2Name = prompt("Player 2 Name: ")
+const player1 = Player(player1Name)
+const player2 = Player(player2Name)
